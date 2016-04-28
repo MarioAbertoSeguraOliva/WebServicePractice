@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 package view;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.TextNode;
-import org.jsoup.select.Elements;
 
 /**
  *
@@ -16,10 +16,10 @@ import org.jsoup.select.Elements;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
+    private ArrayList<String> elementsInTable;
+    
     public MainFrame() {
+        this.elementsInTable = new ArrayList<>();
         initComponents();
     }
 
@@ -489,15 +489,16 @@ public class MainFrame extends javax.swing.JFrame {
         Document doc = Jsoup.parse(port.getAtomicNumber(InputText1.getText()));
         Element table = doc.select("Table").first(); 
         if (table != null){
-            tableElement.setValueAt(doc.select("AtomicNumber").first().text(), 0, 0);
-            tableElement.setValueAt(doc.select("Symbol").first().text(), 0, 1);
-            tableElement.setValueAt(doc.select("AtomicWeight").first().text(), 0, 2);
-            tableElement.setValueAt(doc.select("BoilingPoint").first().text(), 0, 3);
-            tableElement.setValueAt(doc.select("IonisationPotential").first().text(), 0, 4);
-            tableElement.setValueAt(doc.select("EletroNegativity").first().text(), 0, 5);
-            tableElement.setValueAt(doc.select("AtomicRadius").first().text(), 0, 6);
-            tableElement.setValueAt(doc.select("MeltingPoint").first().text(), 0, 7);
-            tableElement.setValueAt(doc.select("Density").first().text(), 0, 8);
+            if (elementsInTable.contains(InputText1.getText().trim().toLowerCase())) 
+                return;
+            else
+                elementsInTable.add(InputText1.getText().trim().toLowerCase());
+            if (counter >= 1){
+                DefaultTableModel model = (DefaultTableModel) tableElement.getModel();
+                model.addRow(new Object[]{"Column 1", "Column 2", "Column 3"});
+            }
+            fillTable(doc);
+            counter++;
         }
     }//GEN-LAST:event_FindButton1ActionPerformed
 
@@ -519,6 +520,18 @@ public class MainFrame extends javax.swing.JFrame {
         OutputText2.setText(port.getAtomicWeight(InputText2.getText()));
     }//GEN-LAST:event_FindButton2ActionPerformed
 
+    public void fillTable(Document doc){
+            tableElement.setValueAt(doc.select("AtomicNumber").first().text(), counter, 0);
+            tableElement.setValueAt(doc.select("Symbol").first().text(), counter, 1);
+            tableElement.setValueAt(doc.select("AtomicWeight").first().text(), counter, 2);
+            tableElement.setValueAt(doc.select("BoilingPoint").first().text(), counter, 3);
+            tableElement.setValueAt(doc.select("IonisationPotential").first().text(), counter, 4);
+            tableElement.setValueAt(doc.select("EletroNegativity").first().text(), counter, 5);
+            tableElement.setValueAt(doc.select("AtomicRadius").first().text(), counter, 6);
+            tableElement.setValueAt(doc.select("MeltingPoint").first().text(), counter, 7);
+            tableElement.setValueAt(doc.select("Density").first().text(), counter, 8);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -586,5 +599,5 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tableElement;
     // End of variables declaration//GEN-END:variables
-
+    private int counter = 0;
 }
