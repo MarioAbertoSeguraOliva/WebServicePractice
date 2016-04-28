@@ -52,7 +52,7 @@ public class MainFrame extends javax.swing.JFrame {
         FindButton1 = new javax.swing.JButton();
         OutputPanel1 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableElement = new javax.swing.JTable();
         Label1 = new javax.swing.JLabel();
         Panel4 = new javax.swing.JPanel();
         Label2 = new javax.swing.JLabel();
@@ -254,7 +254,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableElement.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null}
             },
@@ -263,7 +263,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Long.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Long.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false
@@ -277,7 +277,7 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(jTable1);
+        jScrollPane5.setViewportView(tableElement);
 
         Label1.setText("Made by Yonay Cabrera López and Mario Alberto Segura Oliva for IS");
 
@@ -486,22 +486,18 @@ public class MainFrame extends javax.swing.JFrame {
     private void FindButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindButton1ActionPerformed
         wsdl_url.Periodictable service = new wsdl_url.Periodictable();
         wsdl_url.PeriodictableSoap port = service.getPeriodictableSoap12();
-        String result = port.getAtomicNumber(InputText1.getText());
-        Document doc = Jsoup.parse(result);
+        Document doc = Jsoup.parse(port.getAtomicNumber(InputText1.getText()));
         Element table = doc.select("Table").first(); 
         if (table != null){
-            for (TextNode t : table.textNodes()) {
-                System.out.println(t.getWholeText());
-            }
-            System.out.println(table.select("AtomicNumber").first().data());
-        //System.out.println(table.select("Symbol").first().data());
-        //System.out.println(table.select("AtomicWeight").first().data());
-        //System.out.println(table.select("BoilingPoint").first().data());
-        //System.out.println(table.select("IonisationPotential").first().data());
-        //System.out.println(table.select("EletroNegativity").first().data());
-        //System.out.println(table.select("AtomicRadius").first().data());
-        //System.out.println(table.select("MeltingPoint").first().data());
-        //System.out.println(table.select("Density").first().data());
+            tableElement.setValueAt(doc.select("AtomicNumber").first().text(), 0, 0);
+            tableElement.setValueAt(doc.select("Symbol").first().text(), 0, 1);
+            tableElement.setValueAt(doc.select("AtomicWeight").first().text(), 0, 2);
+            tableElement.setValueAt(doc.select("BoilingPoint").first().text(), 0, 3);
+            tableElement.setValueAt(doc.select("IonisationPotential").first().text(), 0, 4);
+            tableElement.setValueAt(doc.select("EletroNegativity").first().text(), 0, 5);
+            tableElement.setValueAt(doc.select("AtomicRadius").first().text(), 0, 6);
+            tableElement.setValueAt(doc.select("MeltingPoint").first().text(), 0, 7);
+            tableElement.setValueAt(doc.select("Density").first().text(), 0, 8);
         }
     }//GEN-LAST:event_FindButton1ActionPerformed
 
@@ -588,7 +584,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableElement;
     // End of variables declaration//GEN-END:variables
 
 }
