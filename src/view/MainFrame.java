@@ -495,7 +495,7 @@ public class MainFrame extends javax.swing.JFrame {
                 elementsInTable.add(InputText1.getText().trim().toLowerCase());
             if (counter >= 1){
                 DefaultTableModel model = (DefaultTableModel) tableElement.getModel();
-                model.addRow(new Object[]{"Column 1", "Column 2", "Column 3"});
+                model.addRow(new Object[]{"-----", "-----", "-----", "-----", "-----", "-----", "-----", "-----", "-----"});
             }
             fillTable(doc);
             counter++;
